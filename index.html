@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autominds - Request Automation [BRUTAL]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Using Space Grotesk for that bold, geometric brutalist look -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                        mono: ['ui-monospace', 'monospace'],
+                    },
+                    colors: {
+                        brutal: {
+                            white: '#ffffff',
+                            black: '#111111',
+                            green: '#ccff00', // Neon green
+                            pink: '#ff49db',  // Hot pink
+                            blue: '#3b82f6',  // Bright blue
+                            yellow: '#ffd600', // Warning yellow
+                            bg: '#f0f0f0'     // Light gray background
+                        }
+                    },
+                    boxShadow: {
+                        // Solid black offset shadows are a staple of neo-brutalism
+                        'neo': '8px 8px 0px 0px rgba(17, 17, 17, 1)',
+                        'neo-sm': '4px 4px 0px 0px rgba(17, 17, 17, 1)',
+                        'neo-hover': '2px 2px 0px 0px rgba(17, 17, 17, 1)',
+                    },
+                    animation: {
+                        'marquee': 'marquee 15s linear infinite',
+                        'blink': 'blink 1s step-end infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        blink: {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            /* Graph paper background effect */
+            background-color: #f0f0f0;
+            background-image: 
+                linear-gradient(#d1d5db 1px, transparent 1px),
+                linear-gradient(90deg, #d1d5db 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow-x: hidden;
+        }
+
+        /* Hide steps initially */
+        .step { display: none; }
+        .step.active { display: block; }
+
+        /* Form Elements Brutalism */
+        .brutal-input {
+            border: 3px solid #111111;
+            border-radius: 0;
+            transition: all 0.2s ease;
+        }
+        .brutal-input:focus {
+            outline: none;
+            background-color: #ffd600; /* Yellow focus state */
+            box-shadow: 4px 4px 0px 0px rgba(17, 17, 17, 1);
+            transform: translate(-2px, -2px);
+        }
+
+        /* Radio Buttons */
+        .product-card {
+            border: 3px solid #111111;
+            transition: all 0.15s ease;
+            box-shadow: 4px 4px 0px 0px rgba(17, 17, 17, 1);
+        }
+        .product-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px rgba(17, 17, 17, 1);
+        }
+        
+        input[type="radio"]:checked + div {
+            background-color: #ff49db; /* Hot pink when selected */
+            color: white;
+            box-shadow: 2px 2px 0px 0px rgba(17, 17, 17, 1);
+            transform: translate(2px, 2px);
+        }
+        input[type="radio"]:checked + div .icon-box {
+            background-color: #111111;
+            color: #ff49db;
+        }
+        input[type="radio"]:checked + div p {
+            color: #ffffff;
+        }
+
+        /* Buttons */
+        .brutal-btn {
+            border: 3px solid #111111;
+            box-shadow: 6px 6px 0px 0px rgba(17, 17, 17, 1);
+            transition: all 0.1s ease;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .brutal-btn:hover:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0px 0px rgba(17, 17, 17, 1);
+        }
+        .brutal-btn:active:not(:disabled) {
+            transform: translate(6px, 6px);
+            box-shadow: 0px 0px 0px 0px rgba(17, 17, 17, 1);
+        }
+        .brutal-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: translate(6px, 6px);
+            box-shadow: 0px 0px 0px 0px rgba(17, 17, 17, 1);
+        }
+
+        /* Marquee wrapper */
+        .marquee-wrapper {
+            display: flex;
+            width: 200%;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-brutal-black font-sans antialiased flex flex-col">
+
+    <!-- Top Marquee Ticker -->
+    <div class="w-full bg-brutal-green border-b-4 border-brutal-black py-2 overflow-hidden relative z-20">
+        <div class="marquee-wrapper animate-marquee flex items-center font-bold text-sm tracking-widest uppercase whitespace-nowrap">
+            <span>/// DESTROY INEFFICIENCY /// AUTOMINDS /// NO MORE MANUAL WORK /// AUTOMATE EVERYTHING ///</span>
+            <span class="mx-4">*</span>
+            <span>/// DESTROY INEFFICIENCY /// AUTOMINDS /// NO MORE MANUAL WORK /// AUTOMATE EVERYTHING ///</span>
+            <span class="mx-4">*</span>
+            <span>/// DESTROY INEFFICIENCY /// AUTOMINDS /// NO MORE MANUAL WORK /// AUTOMATE EVERYTHING ///</span>
+            <span class="mx-4">*</span>
+            <span>/// DESTROY INEFFICIENCY /// AUTOMINDS /// NO MORE MANUAL WORK /// AUTOMATE EVERYTHING ///</span>
+            <span class="mx-4">*</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="w-full p-6 relative z-10 flex justify-between items-center bg-brutal-white border-b-4 border-brutal-black">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-brutal-black text-brutal-white flex items-center justify-center font-black text-2xl border-2 border-brutal-black shadow-neo-sm">
+                A<span class="animate-blink">_</span>
+            </div>
+            <span class="font-black text-3xl tracking-tighter uppercase">Autominds</span>
+        </div>
+        <a href="#" class="font-bold border-b-2 border-brutal-black hover:bg-brutal-black hover:text-brutal-white px-2 transition-colors">EXIT [X]</a>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-8 relative z-10">
+        <div class="w-full max-w-3xl relative">
+            
+            <!-- Decorative Elements -->
+            <div class="absolute -top-10 -left-10 text-8xl font-black text-brutal-blue opacity-50 select-none z-0 rotate-12">*</div>
+            <div class="absolute -bottom-10 -right-5 px-4 py-1 bg-brutal-yellow border-4 border-brutal-black font-mono font-bold text-xl shadow-neo z-20 rotate-[-5deg]">
+                SYS.REQ_01
+            </div>
+
+            <!-- Form Container -->
+            <div class="bg-brutal-white border-4 border-brutal-black p-8 sm:p-12 relative z-10 shadow-neo">
+                
+                <!-- Progress Indicator -->
+                <div class="mb-10 border-4 border-brutal-black p-3 bg-brutal-bg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="font-black text-xl uppercase tracking-tighter" id="step-indicator">STEP 01/04</span>
+                        <div class="font-mono text-sm font-bold bg-brutal-black text-brutal-white px-2 py-0.5 inline-block ml-2" id="step-title-indicator">INIT_PROJECT</div>
+                    </div>
+                    
+                    <!-- Brutal Progress Bar -->
+                    <div class="flex gap-2 w-full md:w-1/2 h-6">
+                        <div id="prog-1" class="h-full flex-1 border-2 border-brutal-black bg-brutal-black transition-colors"></div>
+                        <div id="prog-2" class="h-full flex-1 border-2 border-brutal-black bg-brutal-white transition-colors"></div>
+                        <div id="prog-3" class="h-full flex-1 border-2 border-brutal-black bg-brutal-white transition-colors"></div>
+                        <div id="prog-4" class="h-full flex-1 border-2 border-brutal-black bg-brutal-white transition-colors"></div>
+                    </div>
+                </div>
+
+                <!-- Form Element -->
+                <form id="automationForm" class="space-y-8">
+                    
+                    <!-- Step 1: Topic -->
+                    <div id="step1" class="step active">
+                        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">What's on your mind?</h2>
+                        <div class="h-1 w-20 bg-brutal-black mb-6"></div>
+                        <p class="font-medium text-lg mb-8">Describe the topic or specific process you want to completely automate and eliminate from your workload.</p>
+                        
+                        <div class="space-y-3">
+                            <label for="topic" class="block font-bold text-xl uppercase tracking-tight">System Objective <span class="text-brutal-pink">*</span></label>
+                            <textarea id="topic" name="topic" rows="5" 
+                                class="brutal-input w-full p-4 text-lg bg-brutal-white resize-none"
+                                placeholder="> ENTER AUTOMATION DETAILS HERE..." required></textarea>
+                            <div id="topic-error" class="hidden bg-red-500 text-white font-bold p-2 border-2 border-brutal-black mt-2">
+                                [!] ERROR: OBJECTIVE REQUIRED TO PROCEED.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Target Audience -->
+                    <div id="step2" class="step">
+                        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">Who is this for?</h2>
+                        <div class="h-1 w-20 bg-brutal-black mb-6"></div>
+                        <p class="font-medium text-lg mb-8">Define the end-users. Who will interact with or benefit from this automated system?</p>
+                        
+                        <div class="space-y-3">
+                            <label for="audience" class="block font-bold text-xl uppercase tracking-tight">Target Demographic <span class="text-brutal-pink">*</span></label>
+                            <textarea id="audience" name="audience" rows="5" 
+                                class="brutal-input w-full p-4 text-lg bg-brutal-white resize-none"
+                                placeholder="> SPECIFY USERS (e.g., Patients, Buyers, Staff)..." required></textarea>
+                            <div id="audience-error" class="hidden bg-red-500 text-white font-bold p-2 border-2 border-brutal-black mt-2">
+                                [!] ERROR: DEMOGRAPHIC DATA REQUIRED.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Product Selection -->
+                    <div id="step3" class="step">
+                        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">Select Module</h2>
+                        <div class="h-1 w-20 bg-brutal-black mb-6"></div>
+                        <p class="font-medium text-lg mb-8">Choose the primary Autominds engine to power your request.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                
+                                <!-- Option 1: Restaurant -->
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="product" value="Restaurant/Cafe Order Manager Automation" class="peer sr-only" required>
+                                    <div class="product-card flex flex-col p-6 bg-brutal-white h-full">
+                                        <div class="icon-box w-12 h-12 bg-brutal-yellow border-2 border-brutal-black flex items-center justify-center text-xl mb-4 transition-colors">
+                                            <i class="fa-solid fa-burger"></i>
+                                        </div>
+                                        <h3 class="text-xl font-black uppercase tracking-tight mb-2">Restaurant / Cafe Manager</h3>
+                                        <p class="text-sm font-medium border-t-2 border-brutal-black pt-2 mt-auto">Streamline orders directly to the kitchen line.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Option 2: Real Estate -->
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="product" value="Real Estate Automation" class="peer sr-only">
+                                    <div class="product-card flex flex-col p-6 bg-brutal-white h-full">
+                                        <div class="icon-box w-12 h-12 bg-brutal-blue border-2 border-brutal-black flex items-center justify-center text-xl mb-4 transition-colors">
+                                            <i class="fa-solid fa-building"></i>
+                                        </div>
+                                        <h3 class="text-xl font-black uppercase tracking-tight mb-2">Real Estate Automation</h3>
+                                        <p class="text-sm font-medium border-t-2 border-brutal-black pt-2 mt-auto">Automate lead capture and property viewings.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Option 3: Doctor Receptionist -->
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="product" value="Doctor Receptionist Automation" class="peer sr-only">
+                                    <div class="product-card flex flex-col p-6 bg-brutal-white h-full">
+                                        <div class="icon-box w-12 h-12 bg-brutal-green border-2 border-brutal-black flex items-center justify-center text-xl mb-4 transition-colors">
+                                            <i class="fa-solid fa-stethoscope"></i>
+                                        </div>
+                                        <h3 class="text-xl font-black uppercase tracking-tight mb-2">Doctor Receptionist</h3>
+                                        <p class="text-sm font-medium border-t-2 border-brutal-black pt-2 mt-auto">24/7 automated patient booking and triage.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Option 4: Other -->
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="product" value="Other Business Automation" class="peer sr-only">
+                                    <div class="product-card flex flex-col p-6 bg-brutal-white h-full">
+                                        <div class="icon-box w-12 h-12 bg-brutal-bg border-2 border-brutal-black flex items-center justify-center text-xl mb-4 transition-colors">
+                                            <i class="fa-solid fa-terminal"></i>
+                                        </div>
+                                        <h3 class="text-xl font-black uppercase tracking-tight mb-2">Other Business Custom</h3>
+                                        <p class="text-sm font-medium border-t-2 border-brutal-black pt-2 mt-auto">Custom scripts and workflows for unique ops.</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div id="product-error" class="hidden bg-red-500 text-white font-bold p-3 border-4 border-brutal-black mt-4 uppercase text-center shadow-neo-sm">
+                                [!] MUST SELECT A SYSTEM MODULE TO DEPLOY.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Scheduling -->
+                    <div id="step4" class="step">
+                        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">Execution Timeline</h2>
+                        <div class="h-1 w-20 bg-brutal-black mb-6"></div>
+                        <p class="font-medium text-lg mb-8">When should the Autominds system execute this payload?</p>
+                        
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Option 1: Immediate -->
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="schedule_type" value="immediate" class="peer sr-only" checked>
+                                    <div class="product-card flex flex-col p-6 bg-brutal-white h-full">
+                                        <div class="icon-box w-12 h-12 bg-brutal-green border-2 border-brutal-black flex items-center justify-center text-xl mb-4 transition-colors">
+                                            <i class="fa-solid fa-bolt"></i>
+                                        </div>
+                                        <h3 class="text-xl font-black uppercase tracking-tight mb-2">Execute Immediately</h3>
+                                        <p class="text-sm font-medium border-t-2 border-brutal-black pt-2 mt-auto">Process request now.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Option 2: Schedule -->
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="schedule_type" value="schedule" class="peer sr-only">
+                                    <div class="product-card flex flex-col p-6 bg-brutal-white h-full">
+                                        <div class="icon-box w-12 h-12 bg-brutal-pink border-2 border-brutal-black flex items-center justify-center text-xl mb-4 transition-colors">
+                                            <i class="fa-solid fa-clock"></i>
+                                        </div>
+                                        <h3 class="text-xl font-black uppercase tracking-tight mb-2">Delay Deployment</h3>
+                                        <p class="text-sm font-medium border-t-2 border-brutal-black pt-2 mt-auto">Set a timer before sending.</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Delay Timer Picker (Hidden by default) -->
+                            <div id="delay-picker" class="hidden p-6 border-4 border-brutal-black bg-brutal-bg shadow-neo-sm space-y-4">
+                                <h3 class="font-black uppercase tracking-tight text-xl mb-2">Set Transmission Delay</h3>
+                                <div class="bg-brutal-black text-brutal-white p-2 font-mono text-xs font-bold uppercase tracking-widest text-center animate-pulse">
+                                    [!] Warning: Browser tab must remain open during countdown [!]
+                                </div>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <div class="flex-1">
+                                        <label for="delay_value" class="block font-bold text-sm uppercase tracking-tight mb-1">Time Amount <span class="text-brutal-pink">*</span></label>
+                                        <input type="number" id="delay_value" name="delay_value" min="1" value="10" class="brutal-input w-full p-3 bg-brutal-white font-mono font-bold text-xl text-center">
+                                    </div>
+                                    <div class="flex-1">
+                                        <label for="delay_unit" class="block font-bold text-sm uppercase tracking-tight mb-1">Unit <span class="text-brutal-pink">*</span></label>
+                                        <select id="delay_unit" name="delay_unit" class="brutal-input w-full p-3 bg-brutal-white font-mono font-bold text-xl appearance-none cursor-pointer text-center">
+                                            <option value="seconds">Seconds</option>
+                                            <option value="minutes">Minutes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="schedule-error" class="hidden bg-red-500 text-white font-bold p-2 border-2 border-brutal-black mt-2 text-center uppercase">
+                                    [!] ERROR: VALID TIME DELAY REQUIRED.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Armed State -->
+                    <div id="countdown-state" class="step py-12 border-4 border-brutal-black bg-brutal-yellow p-8 text-center shadow-[inset_0_0_0_4px_#111111]">
+                        <div class="text-6xl mb-6 text-red-600 animate-pulse"><i class="fa-solid fa-clock"></i></div>
+                        <h2 class="text-5xl font-black uppercase mb-4 tracking-tighter">System Armed</h2>
+                        <p class="font-bold text-lg mb-8 border-y-4 border-brutal-black py-4 bg-brutal-white">
+                            PAYLOAD SCHEDULED. TRANSMITTING IN:
+                        </p>
+                        
+                        <div id="countdown-timer" class="text-8xl md:text-9xl font-black font-mono tracking-tighter mb-8 text-brutal-black">
+                            00:00
+                        </div>
+                        
+                        <div class="bg-red-600 text-white font-bold text-sm border-4 border-brutal-black p-3 uppercase mb-8 shadow-neo-sm animate-blink">
+                            [!] DO NOT CLOSE BROWSER TAB OR TRANSMISSION WILL FAIL [!]
+                        </div>
+                        
+                        <button type="button" id="btn-cancel-timer" class="brutal-btn px-8 py-4 bg-brutal-white text-brutal-black font-black text-xl w-full sm:w-auto hover:bg-red-500 hover:text-white">
+                            ABORT SEQUENCE [X]
+                        </button>
+                    </div>
+
+                    <!-- Success State -->
+                    <div id="success-state" class="step py-12 border-4 border-brutal-black bg-brutal-green p-8 text-center shadow-[inset_0_0_0_4px_#111111]">
+                        <div class="text-6xl mb-6"><i class="fa-solid fa-face-smile-beam"></i></div>
+                        <h2 class="text-5xl font-black uppercase mb-4 tracking-tighter">Data Received</h2>
+                        <p class="font-bold text-xl mb-8 border-y-4 border-brutal-black py-4 bg-brutal-white">
+                            TRANSMISSION SUCCESSFUL. AUTOMINDS WILL INITIATE CONTACT.
+                        </p>
+                        <button type="button" onclick="location.reload()" class="brutal-btn px-8 py-4 bg-brutal-white text-brutal-black text-xl w-full sm:w-auto">
+                            INITIALIZE NEW REQUEST
+                        </button>
+                    </div>
+
+                    <!-- Webhook Error Message -->
+                    <div id="form-error" class="hidden w-full bg-red-500 text-white border-4 border-brutal-black p-6 mb-6">
+                        <div class="flex flex-col sm:flex-row items-start gap-4">
+                            <i class="fa-solid fa-triangle-exclamation text-4xl"></i>
+                            <div>
+                                <h3 class="text-xl font-black uppercase tracking-tight">Transmission Failed</h3>
+                                <div class="font-mono text-sm mt-2 font-bold p-2 bg-brutal-black text-white" id="form-error-text">
+                                    ERR_CONNECTION_REFUSED
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="flex items-center justify-between pt-8 mt-8 border-t-4 border-brutal-black" id="form-actions">
+                        <button type="button" id="btn-back" class="hidden brutal-btn px-6 py-3 bg-brutal-white text-brutal-black flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i> REVERT
+                        </button>
+                        
+                        <div class="ml-auto">
+                            <button type="button" id="btn-next" class="brutal-btn px-10 py-4 bg-brutal-yellow text-brutal-black text-xl flex items-center gap-3">
+                                PROCEED <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            
+                            <button type="submit" id="btn-submit" class="hidden brutal-btn px-10 py-4 bg-brutal-green text-brutal-black text-xl flex items-center gap-3">
+                                <span id="submit-text">DEPLOY SYSTEM</span>
+                                <i class="fa-solid fa-bolt" id="submit-icon"></i>
+                                <i class="fa-solid fa-cog fa-spin hidden" id="loading-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t-4 border-brutal-black bg-brutal-white p-4 text-center font-bold uppercase tracking-widest text-sm z-20">
+        SYS.SECURE // WEBHOOK ACTIVE // &copy; <script>document.write(new Date().getFullYear())</script> AUTOMINDS
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('automationForm');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            const step4 = document.getElementById('step4');
+            const successState = document.getElementById('success-state');
+            const formActions = document.getElementById('form-actions');
+            
+            const btnNext = document.getElementById('btn-next');
+            const btnBack = document.getElementById('btn-back');
+            const btnSubmit = document.getElementById('btn-submit');
+            
+            const prog1 = document.getElementById('prog-1');
+            const prog2 = document.getElementById('prog-2');
+            const prog3 = document.getElementById('prog-3');
+            const prog4 = document.getElementById('prog-4');
+            
+            const stepIndicator = document.getElementById('step-indicator');
+            const stepTitleIndicator = document.getElementById('step-title-indicator');
+            
+            const topicInput = document.getElementById('topic');
+            const topicError = document.getElementById('topic-error');
+            const audienceInput = document.getElementById('audience');
+            const audienceError = document.getElementById('audience-error');
+            const productError = document.getElementById('product-error');
+
+            const scheduleRadios = document.querySelectorAll('input[name="schedule_type"]');
+            const delayPicker = document.getElementById('delay-picker');
+            const delayValue = document.getElementById('delay_value');
+            const delayUnit = document.getElementById('delay_unit');
+            const scheduleError = document.getElementById('schedule-error');
+            
+            const countdownState = document.getElementById('countdown-state');
+            const countdownTimerDisplay = document.getElementById('countdown-timer');
+            const btnCancelTimer = document.getElementById('btn-cancel-timer');
+
+            const webhookUrl = 'https://n8n.srv1234891.hstgr.cloud/webhook-test/fe886a03-1f2e-43e7-8115-db4958ca3ab4';
+
+            let currentStep = 1;
+            const totalSteps = 4;
+            let countdownInterval = null;
+
+            function updateUI() {
+                // Hide all steps
+                step1.classList.remove('active');
+                step2.classList.remove('active');
+                step3.classList.remove('active');
+                step4.classList.remove('active');
+                countdownState.classList.remove('active');
+                successState.classList.remove('active');
+
+                // Show current
+                if(currentStep === 1) step1.classList.add('active');
+                else if(currentStep === 2) step2.classList.add('active');
+                else if(currentStep === 3) step3.classList.add('active');
+                else if(currentStep === 4) step4.classList.add('active');
+
+                // Update brutal progress bar colors
+                prog1.className = `h-full flex-1 border-2 border-brutal-black transition-colors ${currentStep >= 1 ? 'bg-brutal-black' : 'bg-brutal-white'}`;
+                prog2.className = `h-full flex-1 border-2 border-brutal-black transition-colors ${currentStep >= 2 ? 'bg-brutal-black' : 'bg-brutal-white'}`;
+                prog3.className = `h-full flex-1 border-2 border-brutal-black transition-colors ${currentStep >= 3 ? 'bg-brutal-black' : 'bg-brutal-white'}`;
+                prog4.className = `h-full flex-1 border-2 border-brutal-black transition-colors ${currentStep >= 4 ? 'bg-brutal-black' : 'bg-brutal-white'}`;
+
+                // Update Text Indicators
+                stepIndicator.textContent = `STEP 0${currentStep}/0${totalSteps}`;
+                
+                if(currentStep === 1) stepTitleIndicator.textContent = 'INIT_PROJECT';
+                if(currentStep === 2) stepTitleIndicator.textContent = 'DEF_AUDIENCE';
+                if(currentStep === 3) stepTitleIndicator.textContent = 'SEL_MODULE';
+                if(currentStep === 4) stepTitleIndicator.textContent = 'SET_TIMELINE';
+
+                // Manage Action Buttons
+                formActions.style.display = 'flex';
+                if(currentStep === 1) {
+                    btnBack.classList.add('hidden');
+                    btnNext.classList.remove('hidden');
+                    btnSubmit.classList.add('hidden');
+                } else if (currentStep === totalSteps) {
+                    btnBack.classList.remove('hidden');
+                    btnNext.classList.add('hidden');
+                    btnSubmit.classList.remove('hidden');
+                } else {
+                    btnBack.classList.remove('hidden');
+                    btnNext.classList.remove('hidden');
+                    btnSubmit.classList.add('hidden');
+                }
+            }
+
+            // Next Button Click Logic
+            btnNext.addEventListener('click', () => {
+                if (currentStep === 1) {
+                    if (!topicInput.value.trim()) {
+                        topicError.classList.remove('hidden');
+                        topicInput.classList.add('bg-red-100');
+                        return;
+                    }
+                    topicError.classList.add('hidden');
+                    topicInput.classList.remove('bg-red-100');
+                    currentStep++;
+                    updateUI();
+                } 
+                else if (currentStep === 2) {
+                    if (!audienceInput.value.trim()) {
+                        audienceError.classList.remove('hidden');
+                        audienceInput.classList.add('bg-red-100');
+                        return;
+                    }
+                    audienceError.classList.add('hidden');
+                    audienceInput.classList.remove('bg-red-100');
+                    currentStep++;
+                    updateUI();
+                }
+                else if (currentStep === 3) {
+                    const selectedProduct = document.querySelector('input[name="product"]:checked');
+                    if (!selectedProduct) {
+                        productError.classList.remove('hidden');
+                        return;
+                    }
+                    productError.classList.add('hidden');
+                    currentStep++;
+                    updateUI();
+                }
+            });
+
+            // Back Button Click Logic
+            btnBack.addEventListener('click', () => {
+                if(currentStep > 1) {
+                    currentStep--;
+                    updateUI();
+                }
+            });
+
+            // Clear errors on input
+            topicInput.addEventListener('input', () => {
+                topicError.classList.add('hidden');
+                topicInput.classList.remove('bg-red-100');
+            });
+            audienceInput.addEventListener('input', () => {
+                audienceError.classList.add('hidden');
+                audienceInput.classList.remove('bg-red-100');
+            });
+
+            const radioButtons = document.querySelectorAll('input[name="product"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    productError.classList.add('hidden');
+                });
+            });
+
+            // Schedule type toggle
+            scheduleRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.value === 'schedule') {
+                        delayPicker.classList.remove('hidden');
+                    } else {
+                        delayPicker.classList.add('hidden');
+                        scheduleError.classList.add('hidden');
+                        delayValue.classList.remove('bg-red-100');
+                    }
+                });
+            });
+
+            // Abort Countdown Logic
+            btnCancelTimer.addEventListener('click', () => {
+                clearInterval(countdownInterval);
+                resetSubmitButton();
+                updateUI(); // Returns UI to Step 4
+            });
+
+            // Form Submit Logic
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const scheduleType = document.querySelector('input[name="schedule_type"]:checked').value;
+                let delaySeconds = 0;
+
+                if (scheduleType === 'schedule') {
+                    const val = parseInt(delayValue.value);
+                    if (!val || val <= 0) {
+                        scheduleError.classList.remove('hidden');
+                        delayValue.classList.add('bg-red-100');
+                        return;
+                    }
+                    scheduleError.classList.add('hidden');
+                    delayValue.classList.remove('bg-red-100');
+                    
+                    delaySeconds = delayUnit.value === 'minutes' ? val * 60 : val;
+                }
+
+                // Gather Data
+                const formData = {
+                    topic: topicInput.value.trim(),
+                    audience: audienceInput.value.trim(),
+                    product: document.querySelector('input[name="product"]:checked').value,
+                    execution_type: scheduleType,
+                    delay_requested: scheduleType === 'schedule' ? `${delayValue.value} ${delayUnit.value}` : 'None',
+                    timestamp: new Date().toISOString()
+                };
+
+                if (scheduleType === 'schedule') {
+                    startCountdownSequence(formData, delaySeconds);
+                } else {
+                    executeWebhook(formData);
+                }
+            });
+
+            function formatTime(totalSeconds) {
+                const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+                const s = (totalSeconds % 60).toString().padStart(2, '0');
+                return `${m}:${s}`;
+            }
+
+            function startCountdownSequence(formData, totalSeconds) {
+                // Hide normal steps and buttons
+                step1.classList.remove('active');
+                step2.classList.remove('active');
+                step3.classList.remove('active');
+                step4.classList.remove('active');
+                formActions.style.display = 'none';
+                
+                // Show countdown state
+                countdownState.classList.add('active');
+                countdownTimerDisplay.textContent = formatTime(totalSeconds);
+
+                countdownInterval = setInterval(() => {
+                    totalSeconds--;
+                    countdownTimerDisplay.textContent = formatTime(totalSeconds);
+
+                    if (totalSeconds <= 0) {
+                        clearInterval(countdownInterval);
+                        countdownTimerDisplay.textContent = "FIRING";
+                        executeWebhook(formData);
+                    }
+                }, 1000);
+            }
+
+            async function executeWebhook(formData) {
+                console.log("🚀 TRANSMITTING TO WEBHOOK:", webhookUrl);
+                console.log("📦 PAYLOAD:", formData);
+
+                // UI Loading State (if immediate)
+                const submitText = document.getElementById('submit-text');
+                const submitIcon = document.getElementById('submit-icon');
+                const loadingIcon = document.getElementById('loading-icon');
+
+                btnSubmit.disabled = true;
+                if(submitText) submitText.textContent = 'UPLOADING...';
+                if(submitIcon) submitIcon.classList.add('hidden');
+                if(loadingIcon) loadingIcon.classList.remove('hidden');
+                btnBack.disabled = true;
+                
+                // If firing from countdown, update countdown text
+                if (countdownState.classList.contains('active')) {
+                    countdownTimerDisplay.textContent = "SENDING...";
+                    btnCancelTimer.disabled = true;
+                    btnCancelTimer.textContent = "LOCKED";
+                }
+
+                try {
+                    // Send to n8n Webhook
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
+                    
+                    console.log("✅ RESPONSE STATUS:", response.status);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    showSuccessState();
+
+                } catch (error) {
+                    console.error('Webhook Error:', error);
+                    
+                    // Revert UI if it failed during countdown
+                    if (countdownState.classList.contains('active')) {
+                        updateUI(); // Back to step 4
+                    }
+                    
+                    const errorBox = document.getElementById('form-error');
+                    const errorText = document.getElementById('form-error-text');
+                    
+                    if (error.message.includes('404')) {
+                        errorText.innerHTML = `ERR 404: WEBHOOK SLEEPING OR NOT FOUND.<br><br>► <strong>HOW TO FIX:</strong><br>1. Go to your n8n dashboard.<br>2. Open the Webhook node.<br>3. Click <strong>"Listen for test event"</strong>.<br>4. Try submitting this form again while n8n is listening.`;
+                    } else {
+                        errorText.innerHTML = `FATAL ERROR: Could not transmit.<br>1. Ensure n8n is 'Listening for test event'.<br>2. Enable CORS in n8n webhook options.`;
+                    }
+                    
+                    errorBox.classList.remove('hidden');
+                    
+                    setTimeout(() => errorBox.classList.add('hidden'), 15000);
+                    resetSubmitButton();
+                }
+            }
+
+            function showSuccessState() {
+                step1.classList.remove('active');
+                step2.classList.remove('active');
+                step3.classList.remove('active');
+                step4.classList.remove('active');
+                countdownState.classList.remove('active');
+                formActions.style.display = 'none';
+                
+                // Set prog bar fully black
+                prog1.className = 'h-full flex-1 border-2 border-brutal-black bg-brutal-black';
+                prog2.className = 'h-full flex-1 border-2 border-brutal-black bg-brutal-black';
+                prog3.className = 'h-full flex-1 border-2 border-brutal-black bg-brutal-black';
+                prog4.className = 'h-full flex-1 border-2 border-brutal-black bg-brutal-black';
+                
+                stepIndicator.textContent = 'TRANSMITTED';
+                stepTitleIndicator.textContent = 'DONE';
+
+                successState.classList.add('active');
+            }
+
+            function resetSubmitButton() {
+                const submitText = document.getElementById('submit-text');
+                const submitIcon = document.getElementById('submit-icon');
+                const loadingIcon = document.getElementById('loading-icon');
+                
+                btnSubmit.disabled = false;
+                submitText.textContent = 'DEPLOY SYSTEM';
+                submitIcon.classList.remove('hidden');
+                loadingIcon.classList.add('hidden');
+                btnBack.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
